@@ -1,4 +1,9 @@
 /* Requires the Docker Pipeline plugin */
+stage('Clean Workspace') {
+    steps {
+        deleteDir() // Clean the workspace
+    }
+}
 pipeline {
     agent {
         docker {
