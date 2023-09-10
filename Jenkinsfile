@@ -1,13 +1,22 @@
 /* Requires the Docker Pipeline plugin */
 pipeline {
-    agent { docker { image 'maven:3.9.4-eclipse-temurin-17-alpine'
-                   args '-v /var/jenkins/workspace/My-pipeline_Test:/workspace' } }
+    agent {
+        docker {
+            image 'maven:3.9.4-eclipse-temurin-17-alpine'
+        }
+    }
     stages {
-        stage('build') {
+        stage('Set Workspace') {
             steps {
-                sh 'mvn --version'
+                // Set the workspace directory as an absolute path
+                script {
+                    def workspaceDir = pwd()
+                    dir(workspaceDir) {
+                        // Inside this block, the workspace is set to the specified directory
+                        sh 'mvn --version'
+                    }
+                }
             }
         }
     }
 }
-  
